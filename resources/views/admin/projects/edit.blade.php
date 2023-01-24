@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="container-fluid dc-proj">
+        <h1 class="mb-3">Modifica progetto {{$project->name}}</h1>
         <form action="{{route('admin.projects.update', $project)}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -13,38 +14,60 @@
                     <p class="invalid-feedback">{{$message}}</p>
                 @enderror
             </div>
-            <div class="mb-3">
-                <label for="client_name" class="form-label">Client Name</label>
-                <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="client_name" aria-describedby="client_name" name="client_name" value="{{old('client_name', $project->client_name)}}">
-                @error('client_name')
-                <p class="invalid-feedback">{{$message}}</p>
-                @enderror
-            </div>
-            <div class="mb-3 d-flex justify-content-between">
-                <div class="date w-50 me-5">
+            <div class="mb-3 row">
+                <div class="col-8">
+                    <label for="client_name" class="form-label">Client Name</label>
+                    <input type="text" class="form-control @error('client_name') is-invalid @enderror" id="client_name" aria-describedby="client_name" name="client_name" value="{{old('client_name', $project->client_name)}}">
+                    @error('client_name')
+                    <p class="invalid-feedback">{{$message}}</p>
+                    @enderror
+                </div>
+                <div class="date col-3">
                     <label for="created" class="form-label">Project Creation Date</label>
-                    <input type="date" class="form-control @error('created') is-invalid @enderror" id="created" aria-describedby="name" name="created" value="{{old('created', $project->created)}}">
+                    <input type="date" class="form-control @error('created') is-invalid @enderror" id="created" aria-describedby="name" name="created" value="{{old('created',$project->created)}}">
                     @error('created')
                         <p class="invalid-feedback">{{$message}}</p>
                     @enderror
                 </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-between">
                 <div class="type w-50 mt-4">
                     <select class="form-select mt-2" name="type_id">
-                        <option value="">Scegli una categoria di progetto</option>
+                        <option value="" name="type_id">Scegli una categoria di progetto</option>
                         @foreach ($types as $type)
                         <option
-                        @if ($type->id == old('type_id', $project?->type_id)) selected @endif
-                            value="{{$type->id}}">{{$type->name}}
+                        value="{{$type->id}}"
+                        @if ($type->id == old('type_id', $project->type_id)) selected @endif
+                        >{{$type->name}}
                         </option>
                         @endforeach
-
                     </select>
+                </div>
+                <div class="div w-50 ms-5">
+                    <p class="mb-0 mt-2">Seleziona una tecnologia</p>
+                    <div class="technologies d-flex mt-1">
+                        @foreach ($technologies as $technology)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{$technology->id}}" id="technology{{$loop->iteration}}" name="technologies[]"
+                            @if (!$errors->all() && $project->technologies->contains($technology))
+                            checked
+                            @elseif ($errors->all() && in_array($technology->id, old('technologies',[])))
+                            checked
+                            @endif>
+                            <label class="form-check-labe me-3" for="technology{{$loop->iteration}}">
+                            {{$technology->name}}
+                            </label>
+
+                        </div>
+                    @endforeach
+                </div>
                 </div>
 
             </div>
+
             <div class="mb-3">
                 <label for="summary" class="form-label">Descrizione Progetto</label><br>
-                <textarea name="summary" id="summary" rows="8" class="w-100">{{old('summary', $project->summary)}}</textarea>
+                <textarea name="summary" id="summary" rows="5" class="w-100">{{old('summary', $project->summary)}}</textarea>
                 @error('summary')
                     <p class="invalid-feedback">{{$message}}</p>
                 @enderror

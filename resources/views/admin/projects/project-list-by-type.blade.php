@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container-fluid dc-proj">
+    <h1 class="mb-4">Elenco progetti suddivisi per tipo</h1>
     <table class="table">
         <thead>
             <tr>

@@ -2,14 +2,17 @@
 
 @section('content')
     <div class="container w-50 m-auto text-center mt-5">
+        <h1 class="mb-4">Dettagli progetto</h1>
         @if (str_contains($project->cover_image,'http'))
         <img src="{{$project->cover_image}}"
         class="card-img-top dc-proj-image"
-        alt="{{$project->image_original_name}}">
+        alt="{{$project->image_original_name}}"
+        title="Anteprima progetto">
         @else
         <img src="{{ asset('storage/'. $project->cover_image)}}"
         class="card-img-top dc-proj-image"
-        alt="{{$project->image_original_name}}">
+        alt="{{$project->image_original_name}}"
+        title="Anteprima progetto">
         @endif
 
 
@@ -29,10 +32,20 @@
         </div>
         <h4  class="my-2"><strong>Cliente: </strong>{{$project->client_name}}</h4>
         <p  class="my-2"><strong>Descrizione: </strong>{!!$project->summary!!}</p>
+        @if ($project->technologies)
+        <div class="technologies mb-4">
+            @forelse ($project->technologies as $technology)
+            <span class="badge rounded-pill text-bg-info text-white">{{$technology->name}}</span>
+            @empty
+                N.D.
+            @endforelse
+        </div>
+
+        @endif
         <div class="btns">
             <a href="{{route('admin.projects.edit', $project)}}" class="btn btn-warning" title="Edit Project"><i class="fa-solid fa-pencil"></i></a>
             @include('admin.partials.form-delete')
         </div>
-        <a href="{{route('admin.projects.index')}}" class="btn btn-dark mt-5">Torna all'elenco progetti</a>
+        <a href="{{route('admin.projects.index')}}" class="btn btn-dark mt-4">Torna all'elenco progetti</a>
     </div>
 @endsection

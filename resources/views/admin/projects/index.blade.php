@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container-fluid dc-proj">
+        <h1 class="mb-4">Il tuo elenco progetti</h1>
         <div class="row justify-content-between">
             @foreach ($projects as $project)
             <div class="col-2 p-2">

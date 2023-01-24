@@ -18,7 +18,7 @@
                     <a href="{{ route('admin.types.index') }}"><i class="fa-solid me-2 fa-bookmark"></i> Types</a>
                 </li>
                 <li class="mb-4">
-                    <a href="{{ route('admin.project-list-by-type') }}"><i class="fa-solid me-2 fa-tag"></i> Technologies</a>
+                    <a href="{{ route('admin.technologies.index') }}"><i class="fa-solid me-2 fa-tag"></i> Technologies</a>
                 </li>
 
 

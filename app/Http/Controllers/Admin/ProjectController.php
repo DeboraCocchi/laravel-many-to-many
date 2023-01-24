@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types=Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies=Technology::all();
+        return view('admin.projects.create', compact('types','technologies'));
     }
 
     /**
@@ -62,6 +64,7 @@ class ProjectController extends Controller
         $form_data['slug'] = Project::generateSlug($form_data['name']);
 
 
+
         if(array_key_exists('cover_image',$form_data)){
 
             $form_data['image_original_name'] = $request->file('cover_image')->getClientOriginalName();
@@ -70,6 +73,11 @@ class ProjectController extends Controller
 
         }
         $new_project = Project::create($form_data);
+        if(array_key_exists('technologies',$form_data)){
+
+            $new_project->technologies()->attach($form_data['technologies']);
+         }
+
 
 
         /*
@@ -125,7 +133,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {   $types=Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies=Technology::all();
+        return view('admin.projects.edit', compact('project', 'types','technologies'));
     }
 
     /**
@@ -155,7 +164,11 @@ class ProjectController extends Controller
             $form_data['cover_image'] = Storage::put('uploads', $form_data['cover_image']);
         }
         $project->update($form_data);
-
+        if(array_key_exists('technologies',$form_data)){
+            $project->technologies()->sync($form_data['technologies']);
+        }else{
+            $project->technologies()->detach();
+        }
         return redirect()->route('admin.projects.show', $project);
 
     }

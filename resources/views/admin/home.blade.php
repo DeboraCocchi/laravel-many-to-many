@@ -3,6 +3,7 @@
 @section('content')
 
     <div class="container-fluid dc-proj">
+        <h1 class="mb-4">La tua area personale</h1>
        <div class="row home-profile">
            <div class="col-3 px-0 py-4 text-center me-2">
                    <img src="{{url('/img/Funny Bunny-7.png')}}" alt="user-image" class="py-3">
