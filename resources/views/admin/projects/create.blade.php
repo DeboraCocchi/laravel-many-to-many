@@ -63,7 +63,7 @@
 
             <div class="mb-3">
                 <label for="summary" class="form-label">Descrizione Progetto</label><br>
-                <textarea name="summary" id="summary" rows="8" class="w-100">{{old('summary')}}</textarea>
+                <textarea name="summary" id="summary" rows="20" class="w-100">{{old('summary')}}</textarea>
                 @error('summary')
                     <p class="invalid-feedback">{{$message}}</p>
                 @enderror
@@ -89,7 +89,7 @@
     </div>
     <script>
         ClassicEditor
-                .create( document.querySelector( '#text' ),{
+                .create( document.querySelector( '#summary' ),{
                     toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
                 })
                 .catch( error => {
